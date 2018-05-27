@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#607D8B</color>
+
+    <color name="primary_dark">#455A64</color>
+
+    <color name="primary_light">#CFD8DC</color>
+
+    <color name="accent">#9E9E9E</color>
+
+    <color name="primary_text">#212121</color>
+
+    <color name="secondary_text">#757575</color>
+
+    <color name="icons">#FFFFFF</color>
+
+    <color name="divider">#BDBDBD</color>
+    <color name="white_full">#fff</color>
+
+    <color name="tab_color">#18ffff</color>
+
+    <color name="tab_text_color">#BDBDBD</color>
+
+    <color name="me_1">#ba68c8</color>
+    <color name="me_2">#00e5ff</color>
+    <color name="me_3">#42a5f5</color>
+</resources>
