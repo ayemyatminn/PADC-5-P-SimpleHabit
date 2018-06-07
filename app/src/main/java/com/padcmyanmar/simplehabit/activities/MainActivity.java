@@ -12,10 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.padcmyanmar.simplehabit.R;
+import com.padcmyanmar.simplehabit.adapters.SeriesAdapter;
 import com.padcmyanmar.simplehabit.adapters.SimpleHabitAdapter;
+import com.padcmyanmar.simplehabit.events.HomeReadyEvent;
 import com.padcmyanmar.simplehabit.fragments.OnTheGoFragment;
 import com.padcmyanmar.simplehabit.fragments.SeriesFragment;
 import com.padcmyanmar.simplehabit.fragments.TeacherFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +42,7 @@ public class MainActivity extends BaseActivity {
 
     private SimpleHabitAdapter mSimpleHabitAdapter;
 
-   // private SeriesAdapter seriesAdapter;
+    private SeriesAdapter seriesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

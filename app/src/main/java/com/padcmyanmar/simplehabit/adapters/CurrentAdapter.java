@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.padcmyanmar.simplehabit.R;
 import com.padcmyanmar.simplehabit.data.vo.CurrentProgramVO;
+import com.padcmyanmar.simplehabit.delegates.CurrentProgramActionDelegates;
 import com.padcmyanmar.simplehabit.viewholders.CurrentItemViewHolder;
 import com.padcmyanmar.simplehabit.viewholders.TeacherViewHolder;
 
@@ -16,8 +17,12 @@ import com.padcmyanmar.simplehabit.viewholders.TeacherViewHolder;
  */
 
 public class CurrentAdapter extends BaseRecyclerAdapter<CurrentItemViewHolder,CurrentProgramVO> {
-    public CurrentAdapter(Context context) {
+
+    private CurrentProgramActionDelegates mCurrentProgramActionDelegates;
+
+    public CurrentAdapter(Context context, CurrentProgramActionDelegates mCurrentProgramActionDelegates) {
         super(context);
+        this.mCurrentProgramActionDelegates = mCurrentProgramActionDelegates;
     }
 
     @Override
@@ -25,7 +30,7 @@ public class CurrentAdapter extends BaseRecyclerAdapter<CurrentItemViewHolder,Cu
         Context context=parent.getContext();
         LayoutInflater inflater=LayoutInflater.from(context);
         View itemCurrent=inflater.inflate(R.layout.item_current,parent,false);
-        CurrentItemViewHolder currentItemViewHolder=new CurrentItemViewHolder(itemCurrent);
+        CurrentItemViewHolder currentItemViewHolder=new CurrentItemViewHolder(itemCurrent,mCurrentProgramActionDelegates);
 
         return currentItemViewHolder;
     }

@@ -1,5 +1,7 @@
 package com.padcmyanmar.simplehabit.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +14,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.padcmyanmar.simplehabit.R;
+import com.padcmyanmar.simplehabit.activities.ProgramDetailActivity;
 import com.padcmyanmar.simplehabit.adapters.SeriesAdapter;
 import com.padcmyanmar.simplehabit.data.model.SimpleHabitModel;
+import com.padcmyanmar.simplehabit.data.vo.CategoryProgramVO;
+import com.padcmyanmar.simplehabit.delegates.CategoryProgramActionDelegate;
+import com.padcmyanmar.simplehabit.delegates.CurrentProgramActionDelegates;
 import com.padcmyanmar.simplehabit.events.HomeReadyEvent;
+import com.padcmyanmar.simplehabit.events.TapProgramId;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,12 +37,16 @@ import butterknife.ButterKnife;
  * Created by PC on 5/17/2018.
  */
 
-public class SeriesFragment extends BaseFragment {
+public class SeriesFragment extends BaseFragment implements CategoryProgramActionDelegate,CurrentProgramActionDelegates{
 
     @BindView(R.id.rv_series)
     RecyclerView rvSeries;
 
     private SeriesAdapter mSeriesAdapter;
+
+    private CategoryProgramActionDelegate categoryProgramActionDelegate;
+
+    private CurrentProgramActionDelegates currentProgramActionDelegates;
 
     @Nullable
     @Override
@@ -43,7 +54,7 @@ public class SeriesFragment extends BaseFragment {
         View view=inflater.inflate(R.layout.fragment_series,container,false);
         ButterKnife.bind(this,view);
 
-        mSeriesAdapter=new SeriesAdapter(getContext());
+        mSeriesAdapter=new SeriesAdapter(getContext(),this,this);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         rvSeries.setLayoutManager(linearLayoutManager);
         rvSeries.setAdapter(mSeriesAdapter);
@@ -53,6 +64,8 @@ public class SeriesFragment extends BaseFragment {
 
         return view;
     }
+
+
 
     @Override
     public void onStart() {
@@ -72,5 +85,15 @@ public class SeriesFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onTapCategoryProgramItem(String categoryId,String categoryProgramId) {
+        Intent intent = ProgramDetailActivity.newIntent(getContext(),categoryId,categoryProgramId);
+        startActivity(intent);
+    }
 
+    @Override
+    public void onTapCurrentProgramItem() {
+        Intent intent = ProgramDetailActivity.newIntent(getContext());
+        startActivity(intent);
+    }
 }
