@@ -47,6 +47,7 @@ public class ProgramViewHolder extends BaseViewHolder<ProgramVO> {
         getTvNewsSimpleHabitsDuration.setText(data.getAverageLengths().get(0).toString() + "mins");
     }
 
+
     public void setCategory(CategoryProgramVO categoryProgramVO){
         mCategoryProgramVO=categoryProgramVO;
     }

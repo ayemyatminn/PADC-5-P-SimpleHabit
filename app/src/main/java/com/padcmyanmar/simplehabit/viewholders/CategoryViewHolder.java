@@ -42,6 +42,7 @@ public class CategoryViewHolder extends BaseViewHolder<CategoryProgramVO> {
     public void setData(CategoryProgramVO data) {
         programAdapter.setData(data.getProgram());
         tvEveningMeditation.setText(data.getTitle());
+        //TODO call categoryProgramVO setCategory
     }
 
     @Override
