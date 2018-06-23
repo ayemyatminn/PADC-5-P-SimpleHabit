@@ -18,10 +18,13 @@ import com.padcmyanmar.simplehabit.activities.ProgramDetailActivity;
 import com.padcmyanmar.simplehabit.adapters.SeriesAdapter;
 import com.padcmyanmar.simplehabit.data.model.SimpleHabitModel;
 import com.padcmyanmar.simplehabit.data.vo.CategoryProgramVO;
+import com.padcmyanmar.simplehabit.data.vo.SharedParent;
 import com.padcmyanmar.simplehabit.delegates.CategoryProgramActionDelegate;
 import com.padcmyanmar.simplehabit.delegates.CurrentProgramActionDelegates;
 import com.padcmyanmar.simplehabit.events.HomeReadyEvent;
 import com.padcmyanmar.simplehabit.events.TapProgramId;
+import com.padcmyanmar.simplehabit.mvp.presenters.SeriesPresenter;
+import com.padcmyanmar.simplehabit.mvp.views.SeriesView;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,16 +40,14 @@ import butterknife.ButterKnife;
  * Created by PC on 5/17/2018.
  */
 
-public class SeriesFragment extends BaseFragment implements CategoryProgramActionDelegate,CurrentProgramActionDelegates{
+public class SeriesFragment extends BaseFragment implements SeriesView{
 
     @BindView(R.id.rv_series)
     RecyclerView rvSeries;
 
     private SeriesAdapter mSeriesAdapter;
 
-    private CategoryProgramActionDelegate categoryProgramActionDelegate;
-
-    private CurrentProgramActionDelegates currentProgramActionDelegates;
+    private SeriesPresenter mPresentr;
 
     @Nullable
     @Override
@@ -54,13 +55,15 @@ public class SeriesFragment extends BaseFragment implements CategoryProgramActio
         View view=inflater.inflate(R.layout.fragment_series,container,false);
         ButterKnife.bind(this,view);
 
-        mSeriesAdapter=new SeriesAdapter(getContext(),this,this);
+        mPresentr=new SeriesPresenter(this);
+        mPresentr.onCreate();
+
+        mSeriesAdapter=new SeriesAdapter(getContext(),mPresentr,mPresentr);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         rvSeries.setLayoutManager(linearLayoutManager);
         rvSeries.setAdapter(mSeriesAdapter);
 
-        SimpleHabitModel.getSobjInstance().loadData();
-
+        mPresentr.onFinishUIComponentSetUp();
 
         return view;
     }
@@ -70,29 +73,61 @@ public class SeriesFragment extends BaseFragment implements CategoryProgramActio
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        mPresentr.onStart();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresentr.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresentr.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
+        mPresentr.onStop();
+
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onHomeDataLoaded(HomeReadyEvent event){
-        mSeriesAdapter.setData(event.getmHome());
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresentr.onDestroy();
+    }
+
+//    @Override
+//    public void onTapCategoryProgramItem(String categoryId,String categoryProgramId) {
+//        Intent intent = ProgramDetailActivity.newIntent(getContext());
+//        Intent intent = ProgramDetailActivity.newIntent(getContext(),categoryId,categoryProgramId);
+//        startActivity(intent);
+//    }
+
+    @Override
+    public void displayErrorMessage(String errorMessage) {
+
     }
 
 
     @Override
-    public void onTapCategoryProgramItem(String categoryId,String categoryProgramId) {
-        Intent intent = ProgramDetailActivity.newIntent(getContext(),categoryId,categoryProgramId);
+    public void displaySeriesData(List<SharedParent> data) {
+        mSeriesAdapter.setData(data);
+    }
+
+    @Override
+    public void lunchCurrentDetailScreen() {
+        Intent intent = ProgramDetailActivity.newIntent(getContext());
         startActivity(intent);
     }
 
     @Override
-    public void onTapCurrentProgramItem() {
+    public void lunchCategoryDetailScreen() {
         Intent intent = ProgramDetailActivity.newIntent(getContext());
         startActivity(intent);
     }
