@@ -28,6 +28,8 @@ public class CategoryViewHolder extends BaseViewHolder<CategoryProgramVO> {
 
     private CategoryProgramActionDelegate mCategoryProgramActionDelegate;
 
+    private CategoryProgramVO mCategoryProgramVO;
+
     public CategoryViewHolder(View itemView,CategoryProgramActionDelegate categoryProgramActionDelegate) {
 
         super(itemView);
@@ -40,9 +42,14 @@ public class CategoryViewHolder extends BaseViewHolder<CategoryProgramVO> {
 
     @Override
     public void setData(CategoryProgramVO data) {
+
+        mCategoryProgramVO=data;
+
         programAdapter.setData(data.getProgram());
         tvEveningMeditation.setText(data.getTitle());
-        //TODO call categoryProgramVO setCategory
+
+        programAdapter.setmCategoryProgramVO(mCategoryProgramVO);
+
 
     }
 

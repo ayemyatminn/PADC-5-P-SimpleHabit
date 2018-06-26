@@ -51,6 +51,8 @@ public class ProgramDetailActivity extends BaseActivity implements DetailScreenV
 
     public static Intent newIntent(Context context, String categoryId, String categoryProgramId) {
         Intent intent = new Intent(context, ProgramDetailActivity.class);
+        intent.putExtra(SimpleHabitApp.VIEW_TYPE,SimpleHabitApp.CATEGORY_ID);
+        intent.putExtra(SimpleHabitApp.VIEW_TYPE,SimpleHabitApp.PROGRAM_ID);
         return intent;
     }
 
@@ -74,10 +76,10 @@ public class ProgramDetailActivity extends BaseActivity implements DetailScreenV
 
 
         } else if (getIntent().getStringExtra(SimpleHabitApp.VIEW_TYPE).equals(SimpleHabitApp.CATEGORY)) {
-            //String categoryId = getIntent().getStringExtra(SimpleHabitApp.CATEGORY_ID);
-            //String categoryProgramId = getIntent().getStringExtra(SimpleHabitApp.CATEGORY_PROGRAM_ID);
-            //ProgramVO categoryProgram = SimpleHabitModel.getSobjInstance().getProgram(categoryId, categoryProgramId);
-            mPresenter.onFinishUIComponentsetUpForCategory();
+            String categoryId = getIntent().getStringExtra(SimpleHabitApp.CATEGORY_ID);
+            String categoryProgramId = getIntent().getStringExtra(SimpleHabitApp.CATEGORY_PROGRAM_ID);
+
+            mPresenter.onFinishUIComponentsetUpForCategory(categoryId,categoryProgramId);
 
         }
     }
@@ -126,13 +128,11 @@ public class ProgramDetailActivity extends BaseActivity implements DetailScreenV
     }
 
     @Override
-    public void displayCategoryDetailScreen(CurrentProgramVO currentProgramVO) {
-//        mSessionAdapter.setData(categoryProgram.getSessions());
-//        tvMeditationTitle.setText(categoryProgram.getTitle());
-//        tvMeditationBrief.setText(categoryProgram.getDescription());
-
-        mSessionAdapter.setData(currentProgramVO.getSession());
+    public void displayCategoryDetailScreen(ProgramVO currentProgramVO) {
+        mSessionAdapter.setData(currentProgramVO.getSessions());
         tvMeditationTitle.setText(currentProgramVO.getTitle());
         tvMeditationBrief.setText(currentProgramVO.getDescription());
     }
+
+
 }

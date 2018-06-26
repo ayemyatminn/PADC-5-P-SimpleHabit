@@ -55,11 +55,6 @@ public class SeriesPresenter extends BasePresenter<SeriesView> implements Catego
 
     @Override
     public void onTapCategoryProgramItem(String categoryId, String categoryProgramId) {
-        mView.lunchCategoryDetailScreen();
+        mView.lunchCategoryDetailScreen(categoryId,categoryProgramId);
     }
-
-//    @Override
-//    public void onTapCategoryProgramItem(String categoryId, String categoryProgramId) {
-//        mView.lunchCategoryDetailScreen(categoryId,categoryProgramId);
-//    }
 }

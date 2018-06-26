@@ -2,6 +2,7 @@ package com.padcmyanmar.simplehabit.mvp.presenters;
 
 import com.padcmyanmar.simplehabit.data.model.SimpleHabitModel;
 import com.padcmyanmar.simplehabit.data.vo.CurrentProgramVO;
+import com.padcmyanmar.simplehabit.data.vo.ProgramVO;
 import com.padcmyanmar.simplehabit.mvp.views.DetailScreenView;
 
 /**
@@ -22,8 +23,9 @@ public class DetailScreenPresenter extends BasePresenter<DetailScreenView> {
         mView.displayCurrentDetailScreen(currentProgram);
     }
 
-    public void onFinishUIComponentsetUpForCategory(){
-        CurrentProgramVO currentProgram = SimpleHabitModel.getSobjInstance().getCurrentProgram();
-        mView.displayCategoryDetailScreen(currentProgram);
+    public void onFinishUIComponentsetUpForCategory(String categoryId,String categoryProgramId){
+        ProgramVO categoryProgram = SimpleHabitModel.getSobjInstance().getProgram(categoryId, categoryProgramId);
+
+        mView.displayCategoryDetailScreen(categoryProgram);
     }
 }

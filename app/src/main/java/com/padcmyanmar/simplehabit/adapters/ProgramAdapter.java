@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.padcmyanmar.simplehabit.R;
+import com.padcmyanmar.simplehabit.data.vo.CategoryProgramVO;
 import com.padcmyanmar.simplehabit.data.vo.ProgramVO;
 import com.padcmyanmar.simplehabit.delegates.CategoryProgramActionDelegate;
 import com.padcmyanmar.simplehabit.viewholders.ProgramViewHolder;
@@ -18,6 +19,8 @@ import com.padcmyanmar.simplehabit.viewholders.TeacherViewHolder;
 public class ProgramAdapter extends BaseRecyclerAdapter<ProgramViewHolder,ProgramVO> {
 
     private CategoryProgramActionDelegate mCategoryProgramActionDelegate;
+
+    private CategoryProgramVO mCategoryProgramVO;
 
     public ProgramAdapter(Context context, CategoryProgramActionDelegate mCategoryProgramActionDelegate) {
         super(context);
@@ -38,5 +41,14 @@ public class ProgramAdapter extends BaseRecyclerAdapter<ProgramViewHolder,Progra
         return programViewHolder;
     }
 
+    @Override
+    public void onBindViewHolder(ProgramViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        holder.setData(mData.get(position));
+        holder.setCategory(mCategoryProgramVO);
+    }
 
+    public void setmCategoryProgramVO(CategoryProgramVO mCategoryProgramVO) {
+        this.mCategoryProgramVO = mCategoryProgramVO;
+    }
 }

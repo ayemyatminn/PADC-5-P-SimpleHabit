@@ -14,19 +14,25 @@ import android.view.MenuItem;
 import com.padcmyanmar.simplehabit.R;
 import com.padcmyanmar.simplehabit.adapters.SeriesAdapter;
 import com.padcmyanmar.simplehabit.adapters.SimpleHabitAdapter;
+import com.padcmyanmar.simplehabit.data.vo.SharedParent;
+import com.padcmyanmar.simplehabit.delegates.HomeScreenDelegates;
 import com.padcmyanmar.simplehabit.events.HomeReadyEvent;
 import com.padcmyanmar.simplehabit.fragments.OnTheGoFragment;
 import com.padcmyanmar.simplehabit.fragments.SeriesFragment;
 import com.padcmyanmar.simplehabit.fragments.TeacherFragment;
+import com.padcmyanmar.simplehabit.mvp.presenters.SeriesPresenter;
+import com.padcmyanmar.simplehabit.mvp.views.SeriesView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements HomeScreenDelegates,SeriesView{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -44,11 +50,16 @@ public class MainActivity extends BaseActivity {
 
     private SeriesAdapter seriesAdapter;
 
+    private SeriesPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this,this);
+
+        mPresenter=new SeriesPresenter(this);
+        mPresenter.onCreate();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){
@@ -111,6 +122,60 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.onStart();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.onResume();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
+    public SeriesPresenter getPresenter() {
+        return mPresenter;
+    }
+
+    @Override
+    public void displayErrorMessage(String errorMessage) {
+
+    }
+
+    @Override
+    public void displaySeriesData(List<SharedParent> data) {
+        seriesAdapter.setData(data);
+    }
+
+    @Override
+    public void lunchCurrentDetailScreen() {
+        Intent intent = ProgramDetailActivity.newIntent(getApplicationContext());
+        startActivity(intent);
+    }
+
+    @Override
+    public void lunchCategoryDetailScreen(String categoryId, String categoryProgramId) {
+        Intent intent=ProgramDetailActivity.newIntent(getApplicationContext(),categoryId,categoryProgramId);
+        startActivity(intent);
+    }
 }

@@ -14,7 +14,5 @@ public interface SeriesView extends BaseView {
 
     void lunchCurrentDetailScreen();
 
-    void lunchCategoryDetailScreen();
-
-    //void lunchCategoryDetailScreen(String categoryId,String categoryProgramId)
+    void lunchCategoryDetailScreen(String categoryId,String categoryProgramId);
 }
